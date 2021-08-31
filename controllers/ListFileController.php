@@ -21,19 +21,6 @@ class ListFileController extends Controller
     }
 
     /**
-     * @param $path
-     * @return \yii\web\Response
-     */
-    public function actionDelete($path)
-    {
-        if (file_exists($path)) {
-            unlink($path);
-        }
-
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    /**
      * @return string|\yii\web\Response
      */
     public function actionAdd()
@@ -47,5 +34,19 @@ class ListFileController extends Controller
         }
         return $this->render('add', compact('model'));
     }
+
+    /**
+     * @param $path
+     * @return \yii\web\Response
+     */
+    public function actionDelete($path)
+    {
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 
 }

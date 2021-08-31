@@ -38,8 +38,8 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'List files', 'url' => ['/list-file/index']],
             ['label' => 'Add file', 'url' => ['/list-file/add']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Parsed db', 'url' => ['/parser/index']],
+            ['label' => 'Join parsed files', 'url' => ['/site/contact']],
         ],
     ]);
     NavBar::end();

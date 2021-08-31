@@ -2,11 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\ListFile;
-use Yii;
-use yii\helpers\Url;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 
 class ParserController extends Controller
 {
@@ -15,6 +11,20 @@ class ParserController extends Controller
      */
     public function actionIndex()
     {
+        return $this->render('index');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionParse($path)
+    {
+        if (file_exists($path)) {
+            echo $path;
+        }
+
+        die;
+        return $this->render('index');
     }
 
 
