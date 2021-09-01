@@ -1,6 +1,8 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
 $db = require __DIR__ . '/db.php';
 
 $config = [
@@ -25,7 +27,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'Ck5AcbYajw3JTNq0hM_I28DmpsAgoyR9',
+            'cookieValidationKey' => $_ENV['COOKIE'],
             'baseUrl' => '',
         ],
         'cache' => [

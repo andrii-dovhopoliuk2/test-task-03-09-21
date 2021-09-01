@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\web\Controller;
 
 class ParserController extends Controller
@@ -22,7 +23,7 @@ class ParserController extends Controller
         if (file_exists($path)) {
             echo $path;
         }
-
+        Yii::$app->db->createCommand(file_get_contents($path))->execute();
         die;
         return $this->render('index');
     }
