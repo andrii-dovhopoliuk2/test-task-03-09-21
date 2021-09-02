@@ -7,6 +7,8 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 
+$this->title = Yii::t('app', 'Join parsed file');
+
 $form = ActiveForm::begin([
     'options' => ['class' => 'form-horizontal'],
 ]) ?>

@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'List files', 'url' => [Url::toRoute('/list-file/index')]],
             ['label' => 'Add file', 'url' => [Url::toRoute('/list-file/add')]],
             [
-                'label' => 'Parsed db',
+                'label' => 'Parsed DB',
                 'items' => [
                     ['label' => 'xml', 'url' => Url::toRoute(['/parse/index', 'format' => Parse::FORMAT_XML])],
                     ['label' => 'txt', 'url' => Url::toRoute(['/parse/index', 'format' => Parse::FORMAT_TXT])],

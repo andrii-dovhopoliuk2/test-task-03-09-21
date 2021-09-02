@@ -3,6 +3,8 @@
 use yii\grid\GridView;
 use yii\helpers\Url;
 
+$this->title = Yii::t('app', 'List files');
+
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 <a href="<?= Url::toRoute(['parse/parse-all']) ?>">Parse all files</a>

@@ -4,6 +4,7 @@ use yii\bootstrap4\ActiveForm;
 
 /* @var $model app\models\ListFile */
 
+$this->title = Yii::t('app', 'Add file DB');
 
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 

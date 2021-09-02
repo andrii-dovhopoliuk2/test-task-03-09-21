@@ -3,6 +3,8 @@
 use yii\grid\GridView;
 use yii\helpers\Url;
 
+$this->title = Yii::t('app', 'Parsed DB');
+
 /* @var $dataProvider yii\data\ActiveDataProvider */
 ?>
 <?= GridView::widget([
