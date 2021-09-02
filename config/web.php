@@ -9,6 +9,7 @@ $db2 = require __DIR__ . '/db2.php';
 $config = [
     'id' => 'basic',
     'name' => 'Parser',
+    'defaultRoute' => 'list-file/index',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
