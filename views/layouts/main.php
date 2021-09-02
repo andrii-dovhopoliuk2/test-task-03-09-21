@@ -38,7 +38,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'List files', 'url' => ['/list-file/index']],
             ['label' => 'Add file', 'url' => ['/list-file/add']],
-            ['label' => 'Parsed db', 'url' => ['/parser/index']],
+            ['label' => 'Parsed db', 'url' => ['/parse/index']],
             ['label' => 'Join parsed files', 'url' => ['/site/contact']],
         ],
     ]);
