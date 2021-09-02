@@ -71,7 +71,7 @@ class Parse extends ActiveRecord
             $title = $this->clearText($post['post_title']);
             $text = $this->clearText($post['post_content']);
             $text_item .= "'{$title}';'{$text}'\r\n";
-            $xml_item .= " <Item><title>{$title}</title><text><![CDATA[{$text}]]></text></Item>";
+            $xml_item .= "<Item><title>{$title}</title><text><![CDATA[{$text}]]></text></Item>";
         }
         $this->parseCsv($text_item);
         $this->parseTxt($text_item);
@@ -141,12 +141,12 @@ class Parse extends ActiveRecord
      * @param $text
      * @return string
      */
-    private function writeFile($format, $text)
+    public function writeFile($format, $text, $_name_file = false)
     {
         if (!is_dir(__DIR__ . "/../runtime/parsed/{$format}/")) {
             mkdir(__DIR__ . "/../runtime/parsed/{$format}/");
         }
-        $name_file = "{$this->db_name}_post_" . time() . ".$format";
+        $name_file = $_name_file ? $_name_file : "{$this->db_name}_post_" . time() . ".$format";
         $fp = fopen(__DIR__ . "/../runtime/parsed/$format/{$name_file}", "w");
         fwrite($fp, $text);
         fclose($fp);

@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use app\models\DbPost;
+use app\models\JoinParse;
 use app\models\ListFile;
 use app\models\Parse;
 use app\models\search\ParseSearch;
 use Yii;
-use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -20,6 +21,7 @@ class ParseController extends Controller
     {
         $searchModel = new ParseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $format);
+
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
@@ -28,10 +30,15 @@ class ParseController extends Controller
      */
     public function actionJoin($format = Parse::FORMAT_XML)
     {
-die;
-        $searchModel = new ParseSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $format);
-        return $this->render('index', compact('searchModel', 'dataProvider'));
+        $parses = Parse::find()->where(['format' => $format])->all();
+        $parses = ArrayHelper::map($parses, 'id', 'name');
+        $model = new JoinParse($format);
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->joinFileParse()) {
+            Yii::$app->session->setFlash('success', "Success join.");
+            return $this->redirect('join');
+        }
+
+        return $this->render('join', compact('parses', 'model'));
     }
 
     /**
@@ -41,7 +48,10 @@ die;
      */
     public function actionParse($path)
     {
-        $this->parseFile($path);
+        if ($this->parseFile($path)) {
+            Yii::$app->session->setFlash('success', "Success parse.");
+        }
+
         return $this->redirect('index');
     }
 
@@ -55,7 +65,9 @@ die;
             foreach ($list_files as $file_path) {
                 $this->parseFile($file_path);
             }
+            Yii::$app->session->setFlash('success', "Success parse.");
         }
+
         return $this->redirect('index');
     }
 
@@ -110,6 +122,7 @@ die;
             $parse->parse($db_posts);
             return true;
         }
+
         return false;
     }
 

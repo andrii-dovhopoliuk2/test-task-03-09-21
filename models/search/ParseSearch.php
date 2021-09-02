@@ -9,9 +9,14 @@ use yii\data\ActiveDataProvider;
 
 class ParseSearch extends Parse
 {
+    /**
+     * @param $params
+     * @param $format
+     * @return ActiveDataProvider
+     */
     public function search($params, $format)
     {
-        $dataProvider = Parse::find()->where(['format' => $format]);
+        $dataProvider = Parse::find()->where(['format' => $format])->orderBy(['id' => SORT_DESC]);
         $queryProvider = new ActiveDataProvider([
             'query' => $dataProvider,
         ]);

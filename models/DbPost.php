@@ -28,11 +28,11 @@ class DbPost extends Model
     {
         Yii::$app->db2->createCommand(file_get_contents($file_path))->execute();
         $list_tables = Yii::$app->db2->createCommand('SELECT TABLE_NAME FROM  INFORMATION_SCHEMA.PARTITIONS WHERE TABLE_SCHEMA = "' . $this->db_name . '"AND TABLE_NAME LIKE "%_posts" ')->queryAll();
-        $sql = '';
+        $sql_get_posts = '';
         foreach ($list_tables as $table) {
-            $sql .= 'SELECT * FROM `' . $table['TABLE_NAME'] . '` UNION ';
+            $sql_get_posts .= 'SELECT * FROM `' . $table['TABLE_NAME'] . '` UNION ';
         }
-        $posts = Yii::$app->db2->createCommand(substr($sql, 0, -7))->queryAll();
+        $posts = Yii::$app->db2->createCommand(substr($sql_get_posts, 0, -7))->queryAll();
         $this->clearDb();
         return $posts;
     }
