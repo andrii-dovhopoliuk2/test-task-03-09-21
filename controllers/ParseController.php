@@ -7,17 +7,30 @@ use app\models\ListFile;
 use app\models\Parse;
 use app\models\search\ParseSearch;
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class ParseController extends Controller
 {
     /**
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($format = Parse::FORMAT_XML)
     {
         $searchModel = new ParseSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $format);
+        return $this->render('index', compact('searchModel', 'dataProvider'));
+    }
+
+    /**
+     * @return string
+     */
+    public function actionJoin($format = Parse::FORMAT_XML)
+    {
+die;
+        $searchModel = new ParseSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $format);
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
@@ -47,6 +60,43 @@ class ParseController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \yii\console\Response|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionDownload($id)
+    {
+        if ($model = $this->findModel($id)) {
+            $path = __DIR__ . "/../runtime/parsed/" . Parse::getFormats()[$model->format] . "/{$model->file}";
+            if (is_file($path)) {
+                return Yii::$app->response->sendFile($path);
+            }
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDelete($id)
+    {
+        if ($model = $this->findModel($id)) {
+            $path = __DIR__ . "/../runtime/parsed/" . Parse::getFormats()[$model->format] . "/{$model->file}";
+            if (is_file($path)) {
+                unlink($path);
+            }
+            $model->delete();
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
      * @param $path
      * @return bool
      * @throws \yii\db\Exception
@@ -63,4 +113,16 @@ class ParseController extends Controller
         return false;
     }
 
+    /**
+     * @param $id
+     * @return Parse|null
+     */
+    protected function findModel($id)
+    {
+        if (($model = Parse::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
 }

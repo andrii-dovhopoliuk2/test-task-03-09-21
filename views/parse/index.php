@@ -12,7 +12,10 @@ use yii\helpers\Url;
             [
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return '';
+                    $out = '<a href="' . Url::toRoute(['parse/download', 'id' => $model->id]) . '">' . Yii::t('app', 'download') . '</a>';
+                    $out .= ' | ';
+                    $out .= '<a href="' . Url::toRoute(['parse/delete', 'id' => $model->id]) . '">' . Yii::t('app', 'delete') . '</a>';
+                    return $out;
                 }
             ]
         ]

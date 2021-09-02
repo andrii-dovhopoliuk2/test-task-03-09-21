@@ -9,12 +9,11 @@ use yii\data\ActiveDataProvider;
 
 class ParseSearch extends Parse
 {
-    public function search($params)
+    public function search($params, $format)
     {
-        $dataProvider = Parse::find();
+        $dataProvider = Parse::find()->where(['format' => $format]);
         $queryProvider = new ActiveDataProvider([
             'query' => $dataProvider,
-            'sort' => false
         ]);
         $this->load($params);
         if (!$this->validate()) {

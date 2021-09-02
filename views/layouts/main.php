@@ -5,11 +5,13 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
+use app\models\Parse;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -36,10 +38,24 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'List files', 'url' => ['/list-file/index']],
-            ['label' => 'Add file', 'url' => ['/list-file/add']],
-            ['label' => 'Parsed db', 'url' => ['/parse/index']],
-            ['label' => 'Join parsed files', 'url' => ['/site/contact']],
+            ['label' => 'List files', 'url' => [Url::toRoute('/list-file/index')]],
+            ['label' => 'Add file', 'url' => [Url::toRoute('/list-file/add')]],
+            [
+                'label' => 'Parsed db',
+                'items' => [
+                    ['label' => 'xml', 'url' => Url::toRoute(['/parse/index', 'format' => Parse::FORMAT_XML])],
+                    ['label' => 'txt', 'url' => Url::toRoute(['/parse/index', 'format' => Parse::FORMAT_TXT])],
+                    ['label' => 'csv', 'url' => Url::toRoute(['/parse/index', 'format' => Parse::FORMAT_CSV])],
+                ],
+            ],
+            [
+                'label' => 'Join parsed files',
+                'items' => [
+                    ['label' => 'xml', 'url' => Url::toRoute(['/parse/join', 'format' => Parse::FORMAT_XML])],
+                    ['label' => 'txt', 'url' => Url::toRoute(['/parse/join', 'format' => Parse::FORMAT_TXT])],
+                    ['label' => 'csv', 'url' => Url::toRoute(['/parse/join', 'format' => Parse::FORMAT_CSV])],
+                ],
+            ],
         ],
     ]);
     NavBar::end();

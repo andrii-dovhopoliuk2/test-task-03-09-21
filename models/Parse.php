@@ -79,6 +79,18 @@ class Parse extends ActiveRecord
     }
 
     /**
+     * @return string[]
+     */
+    public static function getFormats()
+    {
+        return [
+            self::FORMAT_XML => 'xml',
+            self::FORMAT_TXT => 'txt',
+            self::FORMAT_CSV => 'csv',
+        ];
+    }
+
+    /**
      * @param $text_item
      */
     private function parseCsv($text_item)
