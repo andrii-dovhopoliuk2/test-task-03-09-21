@@ -70,7 +70,7 @@ class Parse extends ActiveRecord
         foreach ($db_posts as $post) {
             $title = $this->clearText($post['post_title']);
             $text = $this->clearText($post['post_content']);
-            $text_item .= "'{$title}';'{$text}'\r\n";
+            $text_item .= "{$title};" . str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $text) . "\r\n";
             $xml_item .= "<Item><title>{$title}</title><text><![CDATA[{$text}]]></text></Item>";
         }
         $this->parseCsv($text_item);
@@ -91,21 +91,19 @@ class Parse extends ActiveRecord
     }
 
     /**
-     * @param $text_item
+     * @param $text
      */
-    private function parseCsv($text_item)
+    private function parseCsv($text)
     {
-        $text = 'name;text' . "\r\n" . $text_item;
         $name_file = $this->writeFile('csv', $text);
         $this->selfSave($name_file, self::FORMAT_CSV);
     }
 
     /**
-     * @param $text_item
+     * @param $text
      */
-    private function parseTxt($text_item)
+    private function parseTxt($text)
     {
-        $text = 'title;text' . "\r\n" . $text_item;
         $name_file = $this->writeFile('txt', $text);
         $this->selfSave($name_file, self::FORMAT_TXT);
     }
