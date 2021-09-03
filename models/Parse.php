@@ -70,7 +70,7 @@ class Parse extends ActiveRecord
         foreach ($db_posts as $post) {
             $title = $this->clearText($post['post_title']);
             $text = $this->clearText($post['post_content']);
-            $text_item .= "{$title};" . str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $text) . "\r\n";
+            $text_item .= '"' . $title . '","' .  $text . '"' . "\r\n";
             $xml_item .= "<Item><title>{$title}</title><text><![CDATA[{$text}]]></text></Item>";
         }
         $this->parseCsv($text_item);
